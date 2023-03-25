@@ -1,13 +1,18 @@
 import { FC } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 
+import GlobalStyle from './styles/global'
+
 import AppRouter from './AppRouter'
 
 const App: FC = () => {
   return (
-    <BrowserRouter>
-      <AppRouter />
-    </BrowserRouter>
+    <>
+      <GlobalStyle />
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
+    </>
   )
 }
 
