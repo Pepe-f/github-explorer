@@ -8,7 +8,7 @@ const AppRouter: FC = () => {
   return (
     <Routes>
       <Route path='/' element={<Dashboard />} />
-      <Route path='/repository' element={<Repository />} />
+      <Route path='/repository/:owner/:name' element={<Repository />} />
     </Routes>
   )
 }
