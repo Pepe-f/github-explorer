@@ -1,24 +1,5 @@
 import styled from 'styled-components'
 
-export const Header = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #a8a8b3;
-    transition: color 0.3s;
-    &:hover {
-      color: #666;
-    }
-    svg {
-      margin-right: 4px;
-    }
-  }
-`
-
 export const RepositoryInfo = styled.section`
   margin-top: 80px;
   header {
@@ -33,7 +14,7 @@ export const RepositoryInfo = styled.section`
       margin-left: 24px;
       strong {
         font-size: 36px;
-        color: #3d3d4d;
+        color: ${props => props.theme.colors.titleSecondary};
       }
       p {
         font-size: 18px;
@@ -53,12 +34,12 @@ export const RepositoryInfo = styled.section`
       strong {
         display: block;
         font-size: 36px;
-        color: #3d3d4d;
+        color: ${props => props.theme.colors.titleSecondary};
       }
       span {
         display: block;
         margin-top: 4px;
-        color: #6c6c80;
+        color: ${props => props.theme.colors.text};
       }
     }
   }
@@ -67,7 +48,7 @@ export const RepositoryInfo = styled.section`
 export const Issues = styled.div`
   margin-top: 80px;
   a {
-    background: #fff;
+    background: ${props => props.theme.colors.shape};
     border-radius: 5px;
     width: 100%;
     padding: 24px;
@@ -86,11 +67,11 @@ export const Issues = styled.div`
       flex: 1;
       strong {
         font-size: 20px;
-        color: #3d3d4d;
+        color: ${props => props.theme.colors.titleSecondary};
       }
       p {
         font-size: 18px;
-        color: #a8a8b3;
+        color: ${props => props.theme.colors.titleSecondary};
         margin-top: 4px;
       }
     }

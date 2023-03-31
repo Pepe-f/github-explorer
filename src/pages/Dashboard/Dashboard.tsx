@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom'
 
 import { api } from '../../services/api'
 
-import logoImg from '../../assets/logo.svg'
-
 import { IRepository, IResponse } from '../../models/models'
 
 import { Error, Form, Repositories, Title } from './styles'
 
 const Dashboard: FC = () => {
   const [repositories, setRepositories] = useState<IRepository[]>(() => {
-    const storageRepositories = localStorage.getItem('repositories')
+    const storageRepositories = localStorage.getItem(
+      '@GitHubExplorer:repositories'
+    )
 
     if (storageRepositories) {
       return JSON.parse(storageRepositories)
@@ -24,7 +24,10 @@ const Dashboard: FC = () => {
   const [inputError, setInputError] = useState('')
 
   useEffect(() => {
-    localStorage.setItem('repositories', JSON.stringify(repositories))
+    localStorage.setItem(
+      '@GitHubExplorer:repositories',
+      JSON.stringify(repositories)
+    )
   }, [repositories])
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
@@ -49,7 +52,6 @@ const Dashboard: FC = () => {
 
   return (
     <>
-      <img src={logoImg} alt='GitHub Explorer' />
       <Title>Explore repositories in GitHub</Title>
       <Form hasError={!!inputError} onSubmit={handleSubmit}>
         <input

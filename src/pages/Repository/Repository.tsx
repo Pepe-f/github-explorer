@@ -1,14 +1,12 @@
 import { FC, useEffect, useState } from 'react'
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
-import { Link, useParams } from 'react-router-dom'
+import { FiChevronRight } from 'react-icons/fi'
+import { useParams } from 'react-router-dom'
 
 import { api } from '../../services/api'
 
-import logoImg from '../../assets/logo.svg'
-
 import { IIssue, IRepository } from '../../models/models'
 
-import { Header, Issues, RepositoryInfo } from './styles'
+import { Issues, RepositoryInfo } from './styles'
 
 type RepositoryParams = {
   owner: string
@@ -36,13 +34,6 @@ const Repository: FC = () => {
 
   return (
     <>
-      <Header>
-        <img src={logoImg} alt='GitHub Explorer' />
-        <Link to='/'>
-          <FiChevronLeft size={16} />
-          Go back
-        </Link>
-      </Header>
       {repository && (
         <RepositoryInfo>
           <header>
