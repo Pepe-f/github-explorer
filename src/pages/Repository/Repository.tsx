@@ -1,12 +1,39 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+
+import { api } from '../../services/api'
 
 import logoImg from '../../assets/logo.svg'
 
+import { IIssue, IRepository } from '../../models/models'
+
 import { Header, Issues, RepositoryInfo } from './styles'
 
+type RepositoryParams = {
+  owner: string
+  name: string
+}
+
 const Repository: FC = () => {
+  const [repository, setRepository] = useState<IRepository | null>(null)
+  const [issues, setIssues] = useState<IIssue[]>([])
+
+  const { owner, name } = useParams<RepositoryParams>()
+
+  useEffect(() => {
+    const loadData = async (): Promise<void> => {
+      const [repositoryResponse, issuesResponse] = await Promise.all([
+        api.get(`/repos/${owner}/${name}`),
+        api.get(`/repos/${owner}/${name}/issues`)
+      ])
+      setRepository(repositoryResponse.data)
+      setIssues(issuesResponse.data)
+    }
+
+    loadData()
+  }, [])
+
   return (
     <>
       <Header>
@@ -16,37 +43,44 @@ const Repository: FC = () => {
           Go back
         </Link>
       </Header>
-      <RepositoryInfo>
-        <header>
-          <img src='' alt='' />
-          <div>
-            <strong>Pepe-f/repository</strong>
-            <p>Description</p>
-          </div>
-        </header>
-        <ul>
-          <li>
-            <strong>1090</strong>
-            <span>Start</span>
-          </li>
-          <li>
-            <strong>90</strong>
-            <span>Forks</span>
-          </li>
-          <li>
-            <strong>34</strong>
-            <span>Issues</span>
-          </li>
-        </ul>
-      </RepositoryInfo>
+      {repository && (
+        <RepositoryInfo>
+          <header>
+            <img
+              src={repository.owner.avatar_url}
+              alt={repository.owner.login}
+            />
+            <div>
+              <strong>{repository.full_name}</strong>
+              <p>{repository.description}</p>
+            </div>
+          </header>
+          <ul>
+            <li>
+              <strong>{repository.stargazers_count}</strong>
+              <span>Stars</span>
+            </li>
+            <li>
+              <strong>{repository.forks_count}</strong>
+              <span>Forks</span>
+            </li>
+            <li>
+              <strong>{repository.open_issues_count}</strong>
+              <span>Issues</span>
+            </li>
+          </ul>
+        </RepositoryInfo>
+      )}
       <Issues>
-        <Link to='/'>
-          <div>
-            <strong>asdfasdf</strong>
-            <p>asdfasdf</p>
-          </div>
-          <FiChevronRight size={20} color='#cbcbd6' />
-        </Link>
+        {issues.map(issue => (
+          <a key={issue.id} href={issue.html_url} target='_blank'>
+            <div>
+              <strong>{issue.title}</strong>
+              <p>{issue.user.login}</p>
+            </div>
+            <FiChevronRight size={20} color='#cbcbd6' />
+          </a>
+        ))}
       </Issues>
     </>
   )
