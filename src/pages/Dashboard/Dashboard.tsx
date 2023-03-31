@@ -1,4 +1,4 @@
-import { FC, FormEvent, useState } from 'react'
+import { FC, FormEvent, useEffect, useState } from 'react'
 import { FiChevronRight } from 'react-icons/fi'
 
 import { api } from '../../services/api'
@@ -10,9 +10,21 @@ import { IRepository, IResponse } from '../../models/models'
 import { Error, Form, Repositories, Title } from './styles'
 
 const Dashboard: FC = () => {
-  const [repositories, setRepositories] = useState<IRepository[]>([])
+  const [repositories, setRepositories] = useState<IRepository[]>(() => {
+    const storageRepositories = localStorage.getItem('repositories')
+
+    if (storageRepositories) {
+      return JSON.parse(storageRepositories)
+    }
+
+    return []
+  })
   const [searchValue, setSearchValue] = useState('')
   const [inputError, setInputError] = useState('')
+
+  useEffect(() => {
+    localStorage.setItem('repositories', JSON.stringify(repositories))
+  }, [repositories])
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
