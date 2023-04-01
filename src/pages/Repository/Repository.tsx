@@ -22,8 +22,8 @@ const Repository: FC = () => {
   useEffect(() => {
     const loadData = async (): Promise<void> => {
       const [repositoryResponse, issuesResponse] = await Promise.all([
-        api.get(`/repos/${owner}/${name}`),
-        api.get(`/repos/${owner}/${name}/issues`)
+        api.get<IRepository>(`/repos/${owner}/${name}`),
+        api.get<IIssue[]>(`/repos/${owner}/${name}/issues`)
       ])
       setRepository(repositoryResponse.data)
       setIssues(issuesResponse.data)
